@@ -14,4 +14,5 @@ interface AnimeApiService {
         @Query("page[limit]") limit: Int = 10,
         @Query("page[offset]") offset: Int = 1
     ): Response<AnimeResponse>
+
 }
