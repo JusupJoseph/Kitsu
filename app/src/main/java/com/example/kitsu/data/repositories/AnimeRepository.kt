@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class AnimeRepository @Inject constructor(private val service: AnimeApiService) : BaseRepository() {
 
-    fun fetchAnime() = doRequest {
-        service.fetchAnime()
+    fun fetchAnime(limit: Int, offset: Int) = doRequest {
+        service.fetchAnime(limit, offset)
     }
 }

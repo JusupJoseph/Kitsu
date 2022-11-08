@@ -8,5 +8,5 @@ import javax.inject.Inject
 @HiltViewModel
 class AnimeViewModel @Inject constructor(private val repository: AnimeRepository) : BaseViewModel() {
 
-    fun fetchAnime() = repository.fetchAnime()
+    fun fetchAnime(limit: Int, offset: Int) = repository.fetchAnime(limit, offset)
 }

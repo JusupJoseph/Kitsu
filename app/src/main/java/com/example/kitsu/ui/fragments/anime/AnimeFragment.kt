@@ -1,14 +1,17 @@
 package com.example.kitsu.ui.fragments.anime
 
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.kitsu.R
 import com.example.kitsu.base.BaseFragment
 import com.example.kitsu.common.Resource
 import com.example.kitsu.databinding.FragmentAnimeBinding
+import com.example.kitsu.models.anime.AnimeModel
 import com.example.kitsu.models.anime.AttributesItem
 import com.example.kitsu.ui.adapters.AnimeAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +22,8 @@ class AnimeFragment : BaseFragment<FragmentAnimeBinding, AnimeViewModel>(R.layou
 
     override val binding by viewBinding(FragmentAnimeBinding::bind)
     override val viewModel: AnimeViewModel by viewModels()
-    private val animeAdapter = AnimeAdapter()
+    private val animeAdapter = AnimeAdapter(arrayListOf())
+    private var offset: Int = 0
 
     override fun initialize() {
         setupRecyclerView()
@@ -29,22 +33,35 @@ class AnimeFragment : BaseFragment<FragmentAnimeBinding, AnimeViewModel>(R.layou
         subscribeToAnime()
     }
 
+    override fun setupListener() {
+        binding.rvAnime.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1)) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    offset += 20
+                    subscribeToAnime()
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        })
+    }
+
     private fun setupRecyclerView() {
         binding.rvAnime.adapter = animeAdapter
     }
 
     private fun subscribeToAnime() {
         lifecycleScope.launch {
-            viewModel.fetchAnime().collect {
+            viewModel.fetchAnime(20, offset).collect {
                 when (it) {
                     is Resource.Error -> {
                         Log.e("anime", it.message.toString())
-                        Toast.makeText(requireContext(), it.data?.result.toString(), Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Loading -> {}
                     is Resource.Success -> {
-                        animeAdapter.submitList(it.data?.result)
-                        Toast.makeText(requireContext(), it.data?.result.toString(), Toast.LENGTH_SHORT).show()
+                        it.data?.let { it1 -> animeAdapter.addNewItem(it1.result) }
                     }
                 }
             }
