@@ -1,7 +1,7 @@
-package com.example.kitsu.models.anime
+package com.example.kitsu.models
 
-import com.example.kitsu.base.IBaseDiffModel
 import com.google.gson.annotations.SerializedName
+import java.sql.ClientInfoStatus
 
 data class AttributesItem(
     @SerializedName("createdAt")
@@ -24,6 +24,12 @@ data class AttributesItem(
     val popularityRank: Int,
     @SerializedName("posterImage")
     val posterImage: AnimeImage,
+    @SerializedName("coverImage")
+    val coverImage: CoverImage,
     @SerializedName("episodeCount")
-    val episodeCount: Int
+    val episodeCount: Int,
+    @SerializedName("showType")
+    val showType: String,
+    @SerializedName("status")
+    val status: String
 )

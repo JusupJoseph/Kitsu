@@ -31,4 +31,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(@LayoutRes lay
 
     protected open fun setupRequest() {}
 
+    protected open fun setupView() {}
+
+    protected open fun fragmentTransaction() {}
 }

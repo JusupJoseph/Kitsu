@@ -1,6 +1,7 @@
-package com.example.kitsu.models
+package com.example.kitsu.models.anime
 
-import com.example.kitsu.models.anime.AnimeModel
+import com.example.kitsu.models.Links
+import com.example.kitsu.models.Meta
 import com.google.gson.annotations.SerializedName
 
 data class AnimeResponse(

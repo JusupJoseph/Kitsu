@@ -1,4 +1,4 @@
-package com.example.kitsu.models.anime
+package com.example.kitsu.models
 
 import com.google.gson.annotations.SerializedName
 
