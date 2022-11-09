@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="230dp"
     android:layout_height="353dp"
-    android:layout_margin="2dp">
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/iv_poster_image"
